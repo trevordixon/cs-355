@@ -1,23 +1,20 @@
-package cs355.solution.draghandlers;
+package cs355.solution.mousehandlers;
 
-import cs355.GUIFunctions;
 import cs355.shapes.Square;
 import cs355.solution.CS355Controller;
 
 import java.awt.*;
 
-public class SquareHandler implements DragHandler {
-    CS355Controller controller;
-
+public class SquareHandler extends CanvasMouseInteractionHandler {
     Square activeSquare;
     Point start;
 
     public SquareHandler(CS355Controller controller) {
-        this.controller = controller;
+        super(controller);
     }
 
     @Override
-    public void start(Point start) {
+    public void down(Point start) {
         activeSquare = new Square();
         activeSquare.setColor(controller.getColor());
 
@@ -25,7 +22,7 @@ public class SquareHandler implements DragHandler {
 
         this.start = start;
 
-        activeSquare.setCorner(start);
+        activeSquare.setCenter(start);
         activeSquare.setSize(0);
     }
 
@@ -37,33 +34,32 @@ public class SquareHandler implements DragHandler {
         int width = Math.abs(dx);
         int height = Math.abs(dy);
 
-        int size = Math.min(width, height);
+        double size = Math.min(width, height);
 
-        Point tlCorner = new Point();
-
+        double x, y;
         if (dx >= 0) {
-            tlCorner.x = start.x;
+            x = start.x + size/2;
         } else {
-            tlCorner.x = start.x - size;
+            x = start.x - size/2;
         }
 
         if (dy >= 0) {
-            tlCorner.y = start.y;
+            y = start.y + size/2;
         } else {
-            tlCorner.y = start.y - size;
+            y = start.y - size/2;
         }
 
-        activeSquare.setCorner(tlCorner);
+        activeSquare.setCenter(x, y);
         activeSquare.setSize(size);
 
-        GUIFunctions.refresh();
+        refresh();
     }
 
     @Override
-    public void end() {
+    public void up(Point p) {
         activeSquare = null;
         start = null;
 
-        GUIFunctions.refresh();
+        refresh();
     }
 }

@@ -1,21 +1,19 @@
-package cs355.solution.draghandlers;
+package cs355.solution.mousehandlers;
 
-import cs355.GUIFunctions;
 import cs355.shapes.Line;
 import cs355.solution.CS355Controller;
 
 import java.awt.*;
 
-public class LineHandler implements DragHandler {
-    CS355Controller controller;
+public class LineHandler extends CanvasMouseInteractionHandler {
     Line activeLine;
 
     public LineHandler(CS355Controller controller) {
-        this.controller = controller;
+        super(controller);
     }
 
     @Override
-    public void start(Point start) {
+    public void down(Point start) {
         activeLine = new Line();
         activeLine.setColor(controller.getColor());
 
@@ -28,12 +26,12 @@ public class LineHandler implements DragHandler {
     @Override
     public void drag(Point end) {
         activeLine.setEnd(end);
-        GUIFunctions.refresh();
+        refresh();
     }
 
     @Override
-    public void end() {
+    public void up(Point p) {
         activeLine = null;
-        GUIFunctions.refresh();
+        refresh();
     }
 }

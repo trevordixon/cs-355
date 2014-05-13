@@ -1,6 +1,7 @@
 package cs355.solution;
 
-import cs355.solution.draghandlers.*;
+import cs355.GUIFunctions;
+import cs355.solution.mousehandlers.*;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -13,7 +14,8 @@ public class CS355Controller implements cs355.CS355Controller {
     public MouseListener mouseListener;
     public MouseMotionListener mouseMotionListener;
 
-    private DragHandler drawingHandler = new IgnoreHandler();
+    private CanvasMouseInteractionHandler mouseInteractionHandler = new CanvasMouseInteractionHandler(this);
+
     private CS355Model model;
     private Color color = Color.blue;
 
@@ -28,50 +30,56 @@ public class CS355Controller implements cs355.CS355Controller {
         return model;
     }
 
+    public void setMouseInteractionHandler(CanvasMouseInteractionHandler mouseInteractionHandler) {
+        if (this.mouseInteractionHandler != null) {
+            this.mouseInteractionHandler.unload();
+        }
+        this.mouseInteractionHandler = mouseInteractionHandler;
+    }
+
     @Override
     public void colorButtonHit(Color c) {
         color = c;
+        GUIFunctions.changeSelectedColor(c);
+        if (model.getSelection() != null) {
+            model.getSelection().setColor(c);
+            GUIFunctions.refresh();
+        }
     }
 
     @Override
     public void lineButtonHit() {
-        System.out.println("lineButtonHit");
-        drawingHandler = new LineHandler(this);
+        setMouseInteractionHandler(new LineHandler(this));
     }
 
     @Override
     public void triangleButtonHit() {
-        System.out.println("triangleButtonHit");
-        drawingHandler = new TriangleHandler(this);
+        setMouseInteractionHandler(new TriangleHandler(this));
     }
 
     @Override
     public void squareButtonHit() {
-        System.out.println("squareButtonHit");
-        drawingHandler = new SquareHandler(this);
+        setMouseInteractionHandler(new SquareHandler(this));
     }
 
     @Override
     public void rectangleButtonHit() {
-        System.out.println("rectangleButtonHit");
-        drawingHandler = new RectangleHandler(this);
+        setMouseInteractionHandler(new RectangleHandler(this));
     }
 
     @Override
     public void circleButtonHit() {
-        System.out.println("circleButtonHit");
-        drawingHandler = new CircleHandler(this);
+        setMouseInteractionHandler(new CircleHandler(this));
     }
 
     @Override
     public void ellipseButtonHit() {
-        System.out.println("ellipseButtonHit");
-        drawingHandler = new EllipseHandler(this);
+        setMouseInteractionHandler(new EllipseHandler(this));
     }
 
     @Override
     public void selectButtonHit() {
-        System.out.println("TODO: selectButtonHit");
+        setMouseInteractionHandler(new SelectHandler(this));
     }
 
     @Override
@@ -146,16 +154,18 @@ public class CS355Controller implements cs355.CS355Controller {
         mouseListener = new MouseListener() {
             @Override
             public void mousePressed(MouseEvent e) {
-                drawingHandler.start(e.getPoint());
+                mouseInteractionHandler.down(e.getPoint());
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                drawingHandler.end();
+                mouseInteractionHandler.up(e.getPoint());
             }
 
             @Override
-            public void mouseClicked(MouseEvent e) {}
+            public void mouseClicked(MouseEvent e) {
+                mouseInteractionHandler.click(e.getPoint());
+            }
 
             @Override
             public void mouseEntered(MouseEvent e) {}
@@ -169,11 +179,13 @@ public class CS355Controller implements cs355.CS355Controller {
         mouseMotionListener = new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                drawingHandler.drag(e.getPoint());
+                mouseInteractionHandler.drag(e.getPoint());
             }
 
             @Override
-            public void mouseMoved(MouseEvent e) {}
+            public void mouseMoved(MouseEvent e) {
+                mouseInteractionHandler.move(e.getPoint());
+            }
         };
     }
 

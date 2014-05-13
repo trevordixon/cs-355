@@ -1,21 +1,12 @@
 package cs355.shapes;
 
-import java.awt.*;
+import java.awt.geom.Point2D;
 
 public class Rectangle extends Shape {
-    private Point corner;
-    private int height;
-    private int width;
+    private double height;
+    private double width;
 
-    public Point getCorner() {
-        return corner;
-    }
-
-    public void setCorner(Point corner) {
-        this.corner = corner;
-    }
-
-    public int getHeight() {
+    public double getHeight() {
         return height;
     }
 
@@ -23,11 +14,20 @@ public class Rectangle extends Shape {
         this.height = height;
     }
 
-    public int getWidth() {
+    public double getWidth() {
         return width;
     }
 
     public void setWidth(int width) {
         this.width = width;
+    }
+
+    @Override
+    public boolean contains(Point2D point) {
+        double x = point.getX(), y = point.getY();
+        return (x >= -1 * (width / 2)) &&
+                (x <= width / 2) &&
+                (y >= -1 * (height / 2)) &&
+                (y <= height / 2);
     }
 }

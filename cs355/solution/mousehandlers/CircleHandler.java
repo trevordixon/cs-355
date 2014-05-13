@@ -1,27 +1,24 @@
-package cs355.solution.draghandlers;
+package cs355.solution.mousehandlers;
 
-import cs355.GUIFunctions;
 import cs355.shapes.Circle;
 import cs355.solution.CS355Controller;
 
 import java.awt.*;
 
-public class CircleHandler implements DragHandler {
-    CS355Controller controller;
-
+public class CircleHandler extends CanvasMouseInteractionHandler {
     Circle activeCircle;
     Point start;
 
     public CircleHandler(CS355Controller controller) {
-        this.controller = controller;
+        super(controller);
     }
 
     @Override
-    public void start(Point start) {
+    public void down(Point start) {
         activeCircle = new Circle();
         activeCircle.setColor(controller.getColor());
 
-        controller.getModel().add(activeCircle);
+        model.add(activeCircle);
 
         this.start = start;
 
@@ -40,30 +37,30 @@ public class CircleHandler implements DragHandler {
         int diameter = Math.min(width, height);
         int radius = diameter/2;
 
-        Point center = new Point();
+        double x, y;
 
         if (dx >= 0) {
-            center.x = start.x + radius;
+            x = start.x + radius;
         } else {
-            center.x = start.x - radius;
+            x = start.x - radius;
         }
 
         if (dy >= 0) {
-            center.y = start.y + radius;
+            y = start.y + radius;
         } else {
-            center.y = start.y - radius;
+            y = start.y - radius;
         }
 
-        activeCircle.setCenter(center);
+        activeCircle.setCenter(x, y);
         activeCircle.setRadius(radius);
 
-        GUIFunctions.refresh();
+        refresh();
     }
 
     @Override
-    public void end() {
+    public void up(Point p) {
         activeCircle = null;
         start = null;
-        GUIFunctions.refresh();
+        refresh();
     }
 }

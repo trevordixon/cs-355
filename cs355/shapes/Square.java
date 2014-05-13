@@ -1,24 +1,29 @@
 package cs355.shapes;
 
-import java.awt.*;
+import java.awt.geom.Point2D;
 
 public class Square extends Shape {
-    private Point corner;
-    private int size;
+    private double size;
 
-    public Point getCorner() {
-        return corner;
-    }
-
-    public void setCorner(Point corner) {
-        this.corner = corner;
-    }
-
-    public int getSize() {
+    public double getSize() {
         return size;
     }
 
-    public void setSize(int size) {
+    public void setSize(double size) {
         this.size = size;
+    }
+
+    @Override
+    public boolean contains(Point2D point) {
+        double x = point.getX(), y = point.getY();
+        return (x >= -1 * (size / 2)) &&
+                (x <= size / 2) &&
+                (y >= -1 * (size / 2)) &&
+                (y <= size / 2);
+    }
+
+    @Override
+    public double getHeight() {
+        return size;
     }
 }

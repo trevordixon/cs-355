@@ -6,7 +6,6 @@ package cs355;
 
 import java.awt.Canvas;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 
 /**
  *

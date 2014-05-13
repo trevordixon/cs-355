@@ -25,8 +25,8 @@ public class CS355
     	// Fill in the parameters below with your controller, view, 
     	//   mouse listener, and mouse motion listener
         CS355Model model = new CS355Model();
-        CS355Controller controller = new CS355Controller(model);
         ViewRefresher view = new ViewRefresher(model);
+        CS355Controller controller = new CS355Controller(model);
 
         GUIFunctions.createCS355Frame(
             controller,
@@ -34,7 +34,8 @@ public class CS355
             controller.mouseListener,
             controller.mouseMotionListener
         );
-        
+
+        GUIFunctions.changeSelectedColor(controller.getColor());
         GUIFunctions.refresh();        
     }
 }

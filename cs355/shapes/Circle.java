@@ -1,18 +1,9 @@
 package cs355.shapes;
 
-import java.awt.*;
+import java.awt.geom.Point2D;
 
 public class Circle extends Shape {
-    private Point center;
     private int radius;
-
-    public Point getCenter() {
-        return center;
-    }
-
-    public void setCenter(Point center) {
-        this.center = center;
-    }
 
     public int getRadius() {
         return radius;
@@ -20,5 +11,18 @@ public class Circle extends Shape {
 
     public void setRadius(int radius) {
         this.radius = radius;
+    }
+
+    @Override
+    public boolean contains(Point2D point) {
+        double x = point.getX(), y = point.getY(), r2 = radius*radius;
+        return (
+                (x*x)/(r2) + (y*y)/(r2)
+        ) <= 1;
+    }
+
+    @Override
+    public double getHeight() {
+        return radius*2;
     }
 }

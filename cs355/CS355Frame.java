@@ -98,7 +98,6 @@ class CS355Frame extends javax.swing.JFrame implements KeyListener
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        canvas1 = new java.awt.Canvas();
         canvas1 = new CS355Canvas();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -112,7 +111,6 @@ class CS355Frame extends javax.swing.JFrame implements KeyListener
         jButton10 = new javax.swing.JButton();
         jScrollBar1 = new javax.swing.JScrollBar();
         jScrollBar2 = new javax.swing.JScrollBar();
-        canvas2 = new java.awt.Canvas();
         canvas2 = new CS355SmallCanvas();
         jButton11 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();

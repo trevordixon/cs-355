@@ -1,23 +1,21 @@
-package cs355.solution.draghandlers;
+package cs355.solution.mousehandlers;
 
-import cs355.GUIFunctions;
 import cs355.shapes.Ellipse;
 import cs355.solution.CS355Controller;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
-public class EllipseHandler implements DragHandler {
-    CS355Controller controller;
-
+public class EllipseHandler extends CanvasMouseInteractionHandler {
     Ellipse activeEllipse;
     Point start;
 
     public EllipseHandler(CS355Controller controller) {
-        this.controller = controller;
+        super(controller);
     }
 
     @Override
-    public void start(Point start) {
+    public void down(Point start) {
         activeEllipse = new Ellipse();
         activeEllipse.setColor(controller.getColor());
 
@@ -26,8 +24,6 @@ public class EllipseHandler implements DragHandler {
         this.start = start;
 
         activeEllipse.setCenter(start);
-        activeEllipse.setWidth(0);
-        activeEllipse.setHeight(0);
     }
 
     @Override
@@ -38,32 +34,31 @@ public class EllipseHandler implements DragHandler {
         int width = Math.abs(dx);
         int height = Math.abs(dy);
 
-        Point center = new Point();
-
+        double x, y;
         if (dx >= 0) {
-            center.x = start.x + width/2;
+            x = start.x + width/2;
         } else {
-            center.x = start.x - width/2;
+            x = start.x - width/2;
         }
 
         if (dy >= 0) {
-            center.y = start.y + height/2;
+            y = start.y + height/2;
         } else {
-            center.y = start.y - height/2;
+            y = start.y - height/2;
         }
 
-        activeEllipse.setCenter(center);
+        activeEllipse.setCenter(x, y);
         activeEllipse.setWidth(width);
         activeEllipse.setHeight(height);
 
-        GUIFunctions.refresh();
+        refresh();
     }
 
     @Override
-    public void end() {
+    public void up(Point p) {
         activeEllipse = null;
         start = null;
 
-        GUIFunctions.refresh();
+        refresh();
     }
 }

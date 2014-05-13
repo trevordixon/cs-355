@@ -1,6 +1,6 @@
 package cs355.solution;
 
-import cs355.shapes.Drawer;
+import cs355.shapes.drawable.Drawer;
 import cs355.shapes.Shape;
 
 import java.awt.*;
@@ -20,6 +20,11 @@ public class ViewRefresher implements cs355.ViewRefresher {
 
         for (Shape shape : model) {
             drawer.draw(shape);
+        }
+
+        Shape selected = model.getSelection();
+        if (selected != null) {
+            drawer.drawSelectionOutlineAndHandles(selected);
         }
     }
 }

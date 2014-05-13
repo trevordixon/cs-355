@@ -1,23 +1,20 @@
-package cs355.solution.draghandlers;
+package cs355.solution.mousehandlers;
 
-import cs355.GUIFunctions;
 import cs355.shapes.Rectangle;
 import cs355.solution.CS355Controller;
 
 import java.awt.*;
 
-public class RectangleHandler implements DragHandler {
-    CS355Controller controller;
-
+public class RectangleHandler extends CanvasMouseInteractionHandler {
     Rectangle activeRectangle;
     Point start;
 
     public RectangleHandler(CS355Controller controller) {
-        this.controller = controller;
+        super(controller);
     }
 
     @Override
-    public void start(Point start) {
+    public void down(Point start) {
         activeRectangle = new Rectangle();
         activeRectangle.setColor(controller.getColor());
 
@@ -25,7 +22,7 @@ public class RectangleHandler implements DragHandler {
 
         this.start = start;
 
-        activeRectangle.setCorner(start);
+        activeRectangle.setCenter(start);
         activeRectangle.setWidth(0);
         activeRectangle.setHeight(0);
     }
@@ -38,32 +35,21 @@ public class RectangleHandler implements DragHandler {
         int width = Math.abs(dx);
         int height = Math.abs(dy);
 
-        Point tlCorner = new Point();
+        double x = (start.getX() + end.getX()) / 2;
+        double y = (start.getY() + end.getY()) / 2;
 
-        if (dx >= 0) {
-            tlCorner.x = start.x;
-        } else {
-            tlCorner.x = end.x;
-        }
-
-        if (dy >= 0) {
-            tlCorner.y = start.y;
-        } else {
-            tlCorner.y = end.y;
-        }
-
-        activeRectangle.setCorner(tlCorner);
+        activeRectangle.setCenter(x, y);
         activeRectangle.setWidth(width);
         activeRectangle.setHeight(height);
 
-        GUIFunctions.refresh();
+        refresh();
     }
 
     @Override
-    public void end() {
+    public void up(Point p) {
         activeRectangle = null;
         start = null;
 
-        GUIFunctions.refresh();
+        refresh();
     }
 }

@@ -1,6 +1,6 @@
-package cs355.solution;
+package cs355.model;
 
-import cs355.shapes.Shape;
+import cs355.model.shapes.Shape;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;

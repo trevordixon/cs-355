@@ -1,7 +1,7 @@
-package cs355.solution.mousehandlers;
+package cs355.controller.mousehandlers;
 
-import cs355.shapes.Line;
-import cs355.solution.CS355Controller;
+import cs355.model.shapes.Line;
+import cs355.controller.CS355Controller;
 
 import java.awt.*;
 

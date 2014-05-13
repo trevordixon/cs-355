@@ -1,8 +1,8 @@
-package cs355.solution.mousehandlers;
+package cs355.controller.mousehandlers;
 
 import cs355.GUIFunctions;
-import cs355.solution.CS355Controller;
-import cs355.solution.CS355Model;
+import cs355.controller.CS355Controller;
+import cs355.model.CS355Model;
 
 import java.awt.*;
 

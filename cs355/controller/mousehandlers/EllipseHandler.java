@@ -1,10 +1,9 @@
-package cs355.solution.mousehandlers;
+package cs355.controller.mousehandlers;
 
-import cs355.shapes.Ellipse;
-import cs355.solution.CS355Controller;
+import cs355.model.shapes.Ellipse;
+import cs355.controller.CS355Controller;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 
 public class EllipseHandler extends CanvasMouseInteractionHandler {
     Ellipse activeEllipse;

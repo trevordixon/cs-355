@@ -1,7 +1,7 @@
-package cs355.solution;
+package cs355.view;
 
-import cs355.shapes.drawable.Drawer;
-import cs355.shapes.Shape;
+import cs355.model.shapes.Shape;
+import cs355.model.CS355Model;
 
 import java.awt.*;
 

@@ -1,7 +1,7 @@
-package cs355.shapes.drawable;
+package cs355.view;
 
-import cs355.shapes.*;
-import cs355.shapes.Shape;
+import cs355.model.shapes.*;
+import cs355.model.shapes.Shape;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -18,8 +18,8 @@ public class Drawer {
 
         if (outline) {
             g.setColor(Color.CYAN);
-            g.fillOval((int) start.getX()-3, (int) start.getY()-3, 7, 7);
-            g.fillOval((int) end.getX()-3, (int) end.getY()-3, 7, 7);
+            g.fillOval((int) start.getX() - 3, (int) start.getY() - 3, 7, 7);
+            g.fillOval((int) end.getX() - 3, (int) end.getY() - 3, 7, 7);
         } else {
             g.drawLine(start.x, start.y, end.x, end.y);
         }
@@ -62,7 +62,7 @@ public class Drawer {
         }
     }
 
-    public void draw(cs355.shapes.Rectangle rectangle, boolean outline) {
+    public void draw(cs355.model.shapes.Rectangle rectangle, boolean outline) {
         g.setColor(rectangle.getColor());
 
         double width = rectangle.getWidth();
@@ -145,7 +145,7 @@ public class Drawer {
         g.fillOval(-3, (int) (-shape.getHeight() / 2) - 20, 7, 7);
     }
 
-    public void draw(cs355.shapes.Shape shape, boolean outline) {
+    public void draw(cs355.model.shapes.Shape shape, boolean outline) {
         Point2D center = shape.getCenter();
 
         AffineTransform objToWorld = new AffineTransform();
@@ -160,8 +160,8 @@ public class Drawer {
             draw((Ellipse) shape, outline);
         } else if (shape instanceof Circle) {
             draw((Circle) shape, outline);
-        } else if (shape instanceof cs355.shapes.Rectangle) {
-            draw((cs355.shapes.Rectangle) shape, outline);
+        } else if (shape instanceof cs355.model.shapes.Rectangle) {
+            draw((cs355.model.shapes.Rectangle) shape, outline);
         } else if (shape instanceof Square) {
             draw((Square) shape, outline);
         } else if (shape instanceof Triangle) {

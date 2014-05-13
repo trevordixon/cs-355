@@ -1,4 +1,4 @@
-package cs355.shapes;
+package cs355.model.shapes;
 
 import cs355.Vector;
 

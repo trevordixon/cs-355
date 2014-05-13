@@ -1,4 +1,4 @@
-package cs355.shapes;
+package cs355.model.shapes;
 
 import java.awt.*;
 import java.awt.geom.Point2D;

@@ -5,10 +5,9 @@
 package cs355.solution;
 
 import cs355.GUIFunctions;
-
-import java.awt.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import cs355.controller.CS355Controller;
+import cs355.model.CS355Model;
+import cs355.view.ViewRefresher;
 
 /**
  *
@@ -36,6 +35,6 @@ public class CS355
         );
 
         GUIFunctions.changeSelectedColor(controller.getColor());
-        GUIFunctions.refresh();        
+        GUIFunctions.refresh();
     }
 }

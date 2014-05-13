@@ -93,7 +93,7 @@ class RedrawRoutine implements Runnable
                 {
                     Thread.sleep((long)(FRAME_TIME-time));
                 }
-                //When game logic relenquishes control, move forward.
+                //When game logic relinquishes control, move forward.
                 isDrawing.acquire();
                 
                 //Refresh the page, making sure to count how long it takes.

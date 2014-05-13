@@ -5,12 +5,14 @@
 package cs355.solution;
 
 import cs355.GUIFunctions;
+
+import java.awt.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  *
- * @author [your name here]
+ * @author Trevor Dixon
  */
 public class CS355 
 {
@@ -22,7 +24,16 @@ public class CS355
     {
     	// Fill in the parameters below with your controller, view, 
     	//   mouse listener, and mouse motion listener
-        GUIFunctions.createCS355Frame(null,null,null,null);
+        CS355Model model = new CS355Model();
+        CS355Controller controller = new CS355Controller(model);
+        ViewRefresher view = new ViewRefresher(model);
+
+        GUIFunctions.createCS355Frame(
+            controller,
+            view,
+            controller.mouseListener,
+            controller.mouseMotionListener
+        );
         
         GUIFunctions.refresh();        
     }

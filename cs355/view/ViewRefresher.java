@@ -1,7 +1,7 @@
 package cs355.view;
 
-import cs355.model.shapes.Shape;
 import cs355.model.CS355Model;
+import cs355.model.shapes.Shape;
 
 import java.awt.*;
 
@@ -18,9 +18,7 @@ public class ViewRefresher implements cs355.ViewRefresher {
     public void refreshView(Graphics2D g2d) {
         drawer.setG(g2d);
 
-        for (Shape shape : model) {
-            drawer.draw(shape);
-        }
+        model.forEach(drawer::draw);
 
         Shape selected = model.getSelection();
         if (selected != null) {

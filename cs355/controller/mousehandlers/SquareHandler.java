@@ -6,8 +6,8 @@ import cs355.controller.CS355Controller;
 import java.awt.*;
 
 public class SquareHandler extends CanvasMouseInteractionHandler {
-    Square activeSquare;
-    Point start;
+    private Square activeSquare;
+    private Point start;
 
     public SquareHandler(CS355Controller controller) {
         super(controller);

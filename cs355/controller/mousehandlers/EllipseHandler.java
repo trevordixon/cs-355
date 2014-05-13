@@ -6,8 +6,8 @@ import cs355.controller.CS355Controller;
 import java.awt.*;
 
 public class EllipseHandler extends CanvasMouseInteractionHandler {
-    Ellipse activeEllipse;
-    Point start;
+    private Ellipse activeEllipse;
+    private Point start;
 
     public EllipseHandler(CS355Controller controller) {
         super(controller);

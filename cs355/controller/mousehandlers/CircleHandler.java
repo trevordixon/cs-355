@@ -6,8 +6,8 @@ import cs355.controller.CS355Controller;
 import java.awt.*;
 
 public class CircleHandler extends CanvasMouseInteractionHandler {
-    Circle activeCircle;
-    Point start;
+    private Circle activeCircle;
+    private Point start;
 
     public CircleHandler(CS355Controller controller) {
         super(controller);

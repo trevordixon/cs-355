@@ -6,8 +6,8 @@ import cs355.controller.CS355Controller;
 import java.awt.*;
 
 public class RectangleHandler extends CanvasMouseInteractionHandler {
-    Rectangle activeRectangle;
-    Point start;
+    private Rectangle activeRectangle;
+    private Point start;
 
     public RectangleHandler(CS355Controller controller) {
         super(controller);

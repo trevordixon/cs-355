@@ -6,7 +6,7 @@ import cs355.controller.CS355Controller;
 import java.awt.*;
 
 public class LineHandler extends CanvasMouseInteractionHandler {
-    Line activeLine;
+    private Line activeLine;
 
     public LineHandler(CS355Controller controller) {
         super(controller);

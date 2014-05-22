@@ -27,14 +27,7 @@ public class TriangleHandler extends CanvasMouseInteractionHandler {
             c3 = point;
         }
 
-        double x = (c1.getX() + c2.getX() + c3.getX())/3;
-        double y = (c1.getY() + c2.getY() + c3.getY())/3;
-
-        c1.setLocation(c1.getX() - x, c1.getY() - y);
-        c2.setLocation(c2.getX() - x, c2.getY() - y);
-        c3.setLocation(c3.getX() - x, c3.getY() - y);
-
-        Triangle t = new Triangle(new Point2D.Double(x, y), c1, c2, c3);
+        Triangle t = new Triangle(c1, c2, c3);
         t.setColor(controller.getColor());
         model.add(t);
 

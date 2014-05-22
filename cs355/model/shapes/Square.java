@@ -26,4 +26,19 @@ public class Square extends Shape {
     public double getHeight() {
         return size;
     }
+
+    @Override
+    public double getWidth() {
+        return size;
+    }
+
+    @Override
+    public void setHeight(double height) {
+        size = height;
+    }
+
+    @Override
+    public void setWidth(double width) {
+        size = width;
+    }
 }

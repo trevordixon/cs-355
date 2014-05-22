@@ -18,12 +18,7 @@ public class CS355Model implements Iterable<Shape> {
 
     public Shape firstShapeUnderPoint(Point2D p) {
         for (Shape shape : this.reverse()) {
-            Point2D center = shape.getCenter();
-
-            AffineTransform worldToObj = new AffineTransform();
-            worldToObj.rotate(-1 * shape.getRotation());
-            worldToObj.translate(-1 * center.getX(), -1 * center.getY());
-
+            AffineTransform worldToObj = shape.fromWorldTransform();
             Point2D objCoord = new Point2D.Double();
             worldToObj.transform(p, objCoord);
 

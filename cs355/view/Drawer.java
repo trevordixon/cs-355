@@ -4,7 +4,6 @@ import cs355.model.shapes.*;
 import cs355.model.shapes.Shape;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 public class Drawer {
@@ -13,28 +12,33 @@ public class Drawer {
     public void draw(Line line, boolean outline) {
         g.setColor(line.getColor());
 
-        Point start = line.getStart();
-        Point end = line.getEnd();
+        Point2D start = line.getStart();
+        Point2D end = line.getEnd();
 
         if (outline) {
             g.setColor(Color.CYAN);
             g.fillOval((int) start.getX() - 3, (int) start.getY() - 3, 7, 7);
             g.fillOval((int) end.getX() - 3, (int) end.getY() - 3, 7, 7);
         } else {
-            g.drawLine(start.x, start.y, end.x, end.y);
+            g.drawLine(
+                (int) start.getY(),
+                (int) start.getX(),
+                (int) end.getX(),
+                (int) end.getY()
+            );
         }
     }
 
     public void draw(Circle circle, boolean outline) {
         g.setColor(circle.getColor());
 
-        int radius = circle.getRadius();
+        double radius = circle.getRadius();
 
         if (outline) {
             g.setColor(Color.CYAN);
-            g.drawOval(-radius, -radius, radius * 2, radius * 2);
+            g.drawOval((int) -radius, (int) -radius, (int) (radius * 2), (int) (radius * 2));
         } else {
-            g.fillOval(-radius, -radius, radius * 2, radius * 2);
+            g.fillOval((int) -radius, (int) -radius, (int) (radius * 2), (int) (radius * 2));
         }
     }
 
@@ -130,7 +134,12 @@ public class Drawer {
 
         if (outline) {
             g.setColor(Color.CYAN);
+
             g.drawPolygon(x, y, 3);
+
+            g.fillOval((int) c1.getX()-3, (int) c1.getY()-3, 7, 7);
+            g.fillOval((int) c2.getX()-3, (int) c2.getY()-3, 7, 7);
+            g.fillOval((int) c3.getX()-3, (int) c3.getY()-3, 7, 7);
         } else {
             g.fillPolygon(x, y, 3);
         }
@@ -142,17 +151,24 @@ public class Drawer {
 
     public void drawSelectionOutlineAndHandles(Shape shape) {
         draw(shape, true);
-        g.fillOval(-3, (int) (-shape.getHeight() / 2) - 20, 7, 7);
+
+        int dx = (int) shape.getWidth()/2;
+        int dy = (int) shape.getHeight()/2;
+
+        // Rotation handle
+        g.fillOval(-3, -dy - 20, 7, 7);
+
+        // Bounding box corner handles (but not for lines and triangles)
+        if (shape instanceof Line || shape instanceof Triangle) return;
+
+        g.fillOval(-dx - 3, -dy - 3, 7, 7);
+        g.fillOval(-dx - 3,  dy - 3, 7, 7);
+        g.fillOval( dx - 3, -dy - 3, 7, 7);
+        g.fillOval( dx - 3,  dy - 3, 7, 7);
     }
 
     public void draw(cs355.model.shapes.Shape shape, boolean outline) {
-        Point2D center = shape.getCenter();
-
-        AffineTransform objToWorld = new AffineTransform();
-        objToWorld.translate(center.getX(), center.getY());
-        objToWorld.rotate(shape.getRotation());
-
-        g.setTransform(objToWorld);
+        g.setTransform(shape.toWorldTransform());
 
         if (shape instanceof Line) {
             draw((Line) shape, outline);

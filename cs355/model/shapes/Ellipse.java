@@ -6,6 +6,7 @@ public class Ellipse extends Shape {
     private double width = 0;
     private double height = 0;
 
+    @Override
     public double getWidth() {
         return width;
     }

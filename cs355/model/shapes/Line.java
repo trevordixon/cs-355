@@ -2,11 +2,11 @@ package cs355.model.shapes;
 
 import cs355.Vector;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 
 public class Line extends Shape {
-    private Point start;
+    private Point2D start;
+    private Point2D end;
 
     @Override
     public void setCenter(Point2D p) {
@@ -24,8 +24,6 @@ public class Line extends Shape {
         start.setLocation(start.getX() + x, start.getY() + y);
         end.setLocation(end.getX() + x, end.getY() + y);
     }
-
-    private Point end;
 
     @Override
     public boolean contains(Point2D point) {
@@ -47,16 +45,16 @@ public class Line extends Shape {
         return p.distanceTo(proj) <= 4;
     }
 
-    public Point getStart() {
+    public Point2D getStart() {
         return start;
     }
-    public Point getEnd() {
+    public Point2D getEnd() {
         return end;
     }
-    public void setStart(Point start) {
+    public void setStart(Point2D start) {
         this.start = start;
     }
-    public void setEnd(Point end) {
+    public void setEnd(Point2D end) {
         this.end = end;
     }
 

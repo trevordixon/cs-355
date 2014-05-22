@@ -3,13 +3,13 @@ package cs355.model.shapes;
 import java.awt.geom.Point2D;
 
 public class Circle extends Shape {
-    private int radius;
+    private double radius;
 
-    public int getRadius() {
+    public double getRadius() {
         return radius;
     }
 
-    public void setRadius(int radius) {
+    public void setRadius(double radius) {
         this.radius = radius;
     }
 
@@ -24,5 +24,20 @@ public class Circle extends Shape {
     @Override
     public double getHeight() {
         return radius*2;
+    }
+
+    @Override
+    public double getWidth() {
+        return radius*2;
+    }
+
+    @Override
+    public void setHeight(double height) {
+        radius = height/2;
+    }
+
+    @Override
+    public void setWidth(double width) {
+        super.setWidth(width);
     }
 }

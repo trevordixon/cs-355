@@ -10,7 +10,7 @@ public class Rectangle extends Shape {
         return height;
     }
 
-    public void setHeight(int height) {
+    public void setHeight(double height) {
         this.height = height;
     }
 
@@ -18,7 +18,7 @@ public class Rectangle extends Shape {
         return width;
     }
 
-    public void setWidth(int width) {
+    public void setWidth(double width) {
         this.width = width;
     }
 

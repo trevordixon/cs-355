@@ -1,6 +1,7 @@
 package cs355.model.shapes;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 public abstract class Shape {
@@ -40,4 +41,24 @@ public abstract class Shape {
     public boolean contains(Point2D point) { return false; }
 
     public abstract double getHeight();
+
+    public double getWidth() { return 0; }
+
+    public void setHeight(double height) {}
+
+    public void setWidth(double width) {}
+
+    public AffineTransform fromWorldTransform() {
+        AffineTransform worldToObj = new AffineTransform();
+        worldToObj.rotate(-1 * this.getRotation());
+        worldToObj.translate(-1 * center.getX(), -1 * center.getY());
+        return worldToObj;
+    }
+
+    public AffineTransform toWorldTransform() {
+        AffineTransform objToWorld = new AffineTransform();
+        objToWorld.translate(center.getX(), center.getY());
+        objToWorld.rotate(this.getRotation());
+        return objToWorld;
+    }
 }

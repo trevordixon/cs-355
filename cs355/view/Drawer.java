@@ -39,8 +39,8 @@ public class Drawer {
             g.fillOval((int) e.getX() - 3, (int) e.getY() - 3, 7, 7);
         } else {
             g.drawLine(
-                (int) start.getY(),
                 (int) start.getX(),
+                (int) start.getY(),
                 (int) end.getX(),
                 (int) end.getY()
             );

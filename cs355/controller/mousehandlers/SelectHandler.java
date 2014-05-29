@@ -116,8 +116,16 @@ public class SelectHandler extends CanvasMouseInteractionHandler {
         return Handle.NONE;
     }
 
-    private static boolean near(Point2D p1, Point2D p2) {
-        return p1.distanceSq(p2) <= 16;
+    private boolean near(Point2D p1, Point2D p2) {
+        AffineTransform worldToView = controller.getView().worldToView;
+
+        Point2D _p1 = new Point2D.Double();
+        Point2D _p2 = new Point2D.Double();
+
+        worldToView.transform(p1, _p1);
+        worldToView.transform(p2, _p2);
+
+        return _p1.distanceSq(_p2) <= 16;
     }
 
     private static void squareize(Point2D p) {

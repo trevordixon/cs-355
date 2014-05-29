@@ -8,6 +8,7 @@ import cs355.model.shapes.Shape;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
+import java.awt.geom.Point2D;
 
 
 public class ViewRefresher implements cs355.ViewRefresher {
@@ -31,9 +32,15 @@ public class ViewRefresher implements cs355.ViewRefresher {
     public void zoomIn() {
         if (zoom >= 4) return;
 
+        Point2D center = new Point2D.Double(canvasWidth/2, canvasHeight/2);
+        viewToWorld.transform(center, center);
+
         zoom *= 2;
         updateScrollBars();
         updateWorldToViewTransform();
+
+        GUIFunctions.setHScrollBarPosit((int) center.getX());
+        GUIFunctions.setVScrollBarPosit((int) center.getY());
 
         GUIFunctions.refresh();
     }
@@ -41,9 +48,15 @@ public class ViewRefresher implements cs355.ViewRefresher {
     public void zoomOut() {
         if (zoom <= 0.25) return;
 
+        Point2D center = new Point2D.Double(canvasWidth/2, canvasHeight/2);
+        viewToWorld.transform(center, center);
+
         zoom *= 0.5;
         updateScrollBars();
         updateWorldToViewTransform();
+
+        GUIFunctions.setHScrollBarPosit((int) center.getX());
+        GUIFunctions.setVScrollBarPosit((int) center.getY());
 
         GUIFunctions.refresh();
     }

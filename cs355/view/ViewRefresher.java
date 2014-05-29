@@ -18,28 +18,47 @@ public class ViewRefresher implements cs355.ViewRefresher {
     public AffineTransform viewToWorld = new ManualAffineTransform();
     double zoom = 1;
 
+    double scrollX = 0;
+    double scrollY = 0;
+
+    double canvasWidth = 510;
+    double canvasHeight = 510;
+
     public ViewRefresher(CS355Model model) {
         this.model = model;
     }
 
     public void zoomIn() {
-        if (zoom < 4) {
-            zoom *= 2;
-            updateWorldToViewTransform();
-            GUIFunctions.refresh();
-        }
+        if (zoom >= 4) return;
+
+        zoom *= 2;
+        updateScrollBars();
+        updateWorldToViewTransform();
+
+        GUIFunctions.refresh();
     }
 
     public void zoomOut() {
-        if (zoom > 0.25) {
-            zoom *= 0.5;
-            updateWorldToViewTransform();
-            GUIFunctions.refresh();
-        }
+        if (zoom <= 0.25) return;
+
+        zoom *= 0.5;
+        updateScrollBars();
+        updateWorldToViewTransform();
+
+        GUIFunctions.refresh();
+    }
+
+    public void updateScrollBars() {
+        GUIFunctions.setHScrollBarMax((int) (zoom*canvasWidth));
+        GUIFunctions.setHScrollBarKnob((int) canvasWidth);
+
+        GUIFunctions.setVScrollBarMax((int) (zoom*canvasHeight));
+        GUIFunctions.setVScrollBarKnob((int) canvasHeight);
     }
 
     public void updateWorldToViewTransform() {
         worldToView.setToIdentity();
+        worldToView.translate(-scrollX, -scrollY);
         worldToView.scale(zoom, zoom);
 
         try {
@@ -47,6 +66,18 @@ public class ViewRefresher implements cs355.ViewRefresher {
         } catch (NoninvertibleTransformException e) {
             e.printStackTrace();
         }
+    }
+
+    public void scrollHTo(int value) {
+        scrollX = value;
+        updateWorldToViewTransform();
+        GUIFunctions.refresh();
+    }
+
+    public void scrollVTo(int value) {
+        scrollY = value;
+        updateWorldToViewTransform();
+        GUIFunctions.refresh();
     }
 
     @Override

@@ -100,12 +100,12 @@ public class CS355Controller implements cs355.CS355Controller {
 
     @Override
     public void hScrollbarChanged(int value) {
-        System.out.println("TODO: hScrollbarChanged");
+        view.scrollHTo(value);
     }
 
     @Override
     public void vScrollbarChanged(int value) {
-        System.out.println("TODO: vScrollbarChanged");
+        view.scrollVTo(value);
     }
 
     @Override

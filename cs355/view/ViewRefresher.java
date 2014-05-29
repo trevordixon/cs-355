@@ -61,11 +61,9 @@ public class ViewRefresher implements cs355.ViewRefresher {
         worldToView.translate(-scrollX, -scrollY);
         worldToView.scale(zoom, zoom);
 
-        try {
-            viewToWorld = worldToView.createInverse();
-        } catch (NoninvertibleTransformException e) {
-            e.printStackTrace();
-        }
+        viewToWorld.setToIdentity();
+        viewToWorld.scale(1/zoom, 1/zoom);
+        viewToWorld.translate(scrollX, scrollY);
     }
 
     public void scrollHTo(int value) {

@@ -4,17 +4,18 @@ import cs355.model.shapes.Square;
 import cs355.controller.CS355Controller;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 public class SquareHandler extends CanvasMouseInteractionHandler {
     private Square activeSquare;
-    private Point start;
+    private Point2D start;
 
     public SquareHandler(CS355Controller controller) {
         super(controller);
     }
 
     @Override
-    public void down(Point start) {
+    public void down(Point2D start) {
         activeSquare = new Square();
         activeSquare.setColor(controller.getColor());
 
@@ -27,26 +28,26 @@ public class SquareHandler extends CanvasMouseInteractionHandler {
     }
 
     @Override
-    public void drag(Point end) {
-        int dx = end.x - start.x;
-        int dy = end.y - start.y;
+    public void drag(Point2D end) {
+        double dx = end.getX() - start.getX();
+        double dy = end.getY() - start.getY();
 
-        int width = Math.abs(dx);
-        int height = Math.abs(dy);
+        double width = Math.abs(dx);
+        double height = Math.abs(dy);
 
         double size = Math.min(width, height);
 
         double x, y;
         if (dx >= 0) {
-            x = start.x + size/2;
+            x = start.getX() + size/2;
         } else {
-            x = start.x - size/2;
+            x = start.getX() - size/2;
         }
 
         if (dy >= 0) {
-            y = start.y + size/2;
+            y = start.getY() + size/2;
         } else {
-            y = start.y - size/2;
+            y = start.getY() - size/2;
         }
 
         activeSquare.setCenter(x, y);
@@ -56,7 +57,7 @@ public class SquareHandler extends CanvasMouseInteractionHandler {
     }
 
     @Override
-    public void up(Point p) {
+    public void up(Point2D p) {
         activeSquare = null;
         start = null;
 

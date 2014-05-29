@@ -5,6 +5,7 @@ import cs355.controller.CS355Controller;
 import cs355.model.CS355Model;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 public class CanvasMouseInteractionHandler {
     protected CS355Controller controller;
@@ -15,11 +16,11 @@ public class CanvasMouseInteractionHandler {
         model = controller.getModel();
     }
 
-    public void down(Point p) {}
-    public void up(Point p) {}
-    public void click(Point p) {}
-    public void move(Point p) {}
-    public void drag(Point p) {}
+    public void down(Point2D p) {}
+    public void up(Point2D p) {}
+    public void click(Point2D p) {}
+    public void move(Point2D p) {}
+    public void drag(Point2D p) {}
 
     public void unload() {}
 

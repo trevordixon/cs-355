@@ -1,5 +1,6 @@
 package cs355.model.shapes;
 
+import cs355.ManualAffineTransform;
 import cs355.Vector;
 
 import java.awt.geom.AffineTransform;
@@ -99,7 +100,7 @@ public class Triangle extends Shape {
 
         Point2D d = new Point2D.Double(x, y);
 
-        AffineTransform unRotate = new AffineTransform();
+        AffineTransform unRotate = new ManualAffineTransform();
         unRotate.rotate(getRotation());
 
         unRotate.transform(d, d);

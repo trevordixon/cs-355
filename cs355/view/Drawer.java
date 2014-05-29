@@ -1,13 +1,25 @@
 package cs355.view;
 
+import cs355.ManualAffineTransform;
 import cs355.model.shapes.*;
 import cs355.model.shapes.Shape;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.util.Arrays;
 
 public class Drawer {
+    private ViewRefresher view;
     private Graphics2D g;
+
+    private AffineTransform objToWorld;
+    private AffineTransform worldToView;
+    private AffineTransform objToView;
+
+    public Drawer(ViewRefresher view) {
+        this.view = view;
+    }
 
     public void draw(Line line, boolean outline) {
         g.setColor(line.getColor());
@@ -16,9 +28,15 @@ public class Drawer {
         Point2D end = line.getEnd();
 
         if (outline) {
+            Point2D s = new Point2D.Double();
+            Point2D e = new Point2D.Double();
+
+            objToView.transform(start, s);
+            objToView.transform(end, e);
+
             g.setColor(Color.CYAN);
-            g.fillOval((int) start.getX() - 3, (int) start.getY() - 3, 7, 7);
-            g.fillOval((int) end.getX() - 3, (int) end.getY() - 3, 7, 7);
+            g.fillOval((int) s.getX() - 3, (int) s.getY() - 3, 7, 7);
+            g.fillOval((int) e.getX() - 3, (int) e.getY() - 3, 7, 7);
         } else {
             g.drawLine(
                 (int) start.getY(),
@@ -35,6 +53,8 @@ public class Drawer {
         double radius = circle.getRadius();
 
         if (outline) {
+            radius *= view.zoom;
+
             g.setColor(Color.CYAN);
             g.drawOval((int) -radius, (int) -radius, (int) (radius * 2), (int) (radius * 2));
         } else {
@@ -49,6 +69,9 @@ public class Drawer {
         double height = ellipse.getHeight();
 
         if (outline) {
+            width *= view.zoom;
+            height *= view.zoom;
+
             g.setColor(Color.CYAN);
             g.drawOval(
                     (int) (-width / 2),
@@ -73,13 +96,11 @@ public class Drawer {
         double height = rectangle.getHeight();
 
         if (outline) {
+            width *= view.zoom;
+            height *= view.zoom;
+
             g.setColor(Color.CYAN);
-            g.drawRect(
-                    (int) (-width / 2),
-                    (int) (-height / 2),
-                    (int) width,
-                    (int) height
-            );
+            g.drawRect((int) (-width / 2), (int) (-height / 2), (int) (width), (int) (height));
         } else {
             g.fillRect(
                 (int) (-width / 2),
@@ -96,6 +117,8 @@ public class Drawer {
         double size = square.getSize();
 
         if (outline) {
+            size *= view.zoom;
+
             g.setColor(Color.CYAN);
             g.drawRect(
                     (int) (-size / 2),
@@ -121,25 +144,33 @@ public class Drawer {
         Point2D c3 = triangle.getCorner3();
 
         int[] x = {
-            (int) c1.getX(),
-            (int) c2.getX(),
-            (int) c3.getX()
+            (int) (c1.getX()),
+            (int) (c2.getX()),
+            (int) (c3.getX())
         };
 
         int[] y = {
-            (int) c1.getY(),
-            (int) c2.getY(),
-            (int) c3.getY()
+            (int) (c1.getY()),
+            (int) (c2.getY()),
+            (int) (c3.getY())
         };
 
         if (outline) {
             g.setColor(Color.CYAN);
 
+            x[0] *= view.zoom;
+            x[1] *= view.zoom;
+            x[2] *= view.zoom;
+
+            y[0] *= view.zoom;
+            y[1] *= view.zoom;
+            y[2] *= view.zoom;
+
             g.drawPolygon(x, y, 3);
 
-            g.fillOval((int) c1.getX()-3, (int) c1.getY()-3, 7, 7);
-            g.fillOval((int) c2.getX()-3, (int) c2.getY()-3, 7, 7);
-            g.fillOval((int) c3.getX()-3, (int) c3.getY()-3, 7, 7);
+            g.fillOval((int) (c1.getX()*view.zoom)-3, (int) (c1.getY()*view.zoom)-3, 7, 7);
+            g.fillOval((int) (c2.getX()*view.zoom)-3, (int) (c2.getY()*view.zoom)-3, 7, 7);
+            g.fillOval((int) (c3.getX()*view.zoom)-3, (int) (c3.getY()*view.zoom)-3, 7, 7);
         } else {
             g.fillPolygon(x, y, 3);
         }
@@ -152,23 +183,53 @@ public class Drawer {
     public void drawSelectionOutlineAndHandles(Shape shape) {
         draw(shape, true);
 
-        int dx = (int) shape.getWidth()/2;
-        int dy = (int) shape.getHeight()/2;
+        double dx = shape.getWidth()/2;
+        double dy = shape.getHeight()/2;
 
         // Rotation handle
-        g.fillOval(-3, -dy - 20, 7, 7);
+        Point2D rotationHandlePoint = new Point2D.Double(0, -dy-17);
+        objToView.transform(rotationHandlePoint, rotationHandlePoint);
+        g.fillOval((int) rotationHandlePoint.getX()-3, (int) rotationHandlePoint.getY()-3, 7, 7);
 
         // Bounding box corner handles (but not for lines and triangles)
         if (shape instanceof Line || shape instanceof Triangle) return;
 
-        g.fillOval(-dx - 3, -dy - 3, 7, 7);
-        g.fillOval(-dx - 3,  dy - 3, 7, 7);
-        g.fillOval( dx - 3, -dy - 3, 7, 7);
-        g.fillOval( dx - 3,  dy - 3, 7, 7);
+
+        Point2D topLeft = new Point2D.Double(-dx, -dy);
+        Point2D topRight = new Point2D.Double(-dx,  dy);
+        Point2D bottomLeft = new Point2D.Double( dx, -dy);
+        Point2D bottomRight = new Point2D.Double( dx,  dy);
+
+        objToView.transform(topLeft, topLeft);
+        objToView.transform(topRight, topRight);
+        objToView.transform(bottomLeft, bottomLeft);
+        objToView.transform(bottomRight, bottomRight);
+
+        g.fillOval((int) topLeft.getX() - 3, (int) topLeft.getY() - 3, 7, 7);
+        g.fillOval((int) topRight.getX()-3, (int) topRight.getY()-3, 7, 7);
+        g.fillOval((int) bottomLeft.getX()-3, (int) bottomLeft.getY()-3, 7, 7);
+        g.fillOval((int) bottomRight.getX()-3, (int) bottomRight.getY()-3, 7, 7);
     }
 
     public void draw(cs355.model.shapes.Shape shape, boolean outline) {
-        g.setTransform(shape.toWorldTransform());
+        objToWorld = shape.toWorldTransform();
+        worldToView = view.worldToView;
+
+        objToView = (AffineTransform) objToWorld.clone();
+        objToView.preConcatenate(worldToView);
+
+        if (!outline) g.setTransform(objToView);
+        else {
+            Point2D center = new Point2D.Double(0, 0);
+
+            objToView.transform(center, center);
+
+            AffineTransform t = new ManualAffineTransform();
+            t.translate(center.getX(), center.getY());
+            t.rotate(shape.getRotation());
+
+            g.setTransform(t);
+        }
 
         if (shape instanceof Line) {
             draw((Line) shape, outline);
@@ -183,6 +244,8 @@ public class Drawer {
         } else if (shape instanceof Triangle) {
             draw((Triangle) shape, outline);
         }
+
+        g.setTransform(new ManualAffineTransform());
     }
 
     public void setG(Graphics2D g) {

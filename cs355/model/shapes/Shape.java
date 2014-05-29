@@ -1,5 +1,8 @@
 package cs355.model.shapes;
 
+import cs355.ManualAffineTransform;
+import javafx.scene.transform.Affine;
+
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
@@ -49,14 +52,14 @@ public abstract class Shape {
     public void setWidth(double width) {}
 
     public AffineTransform fromWorldTransform() {
-        AffineTransform worldToObj = new AffineTransform();
-        worldToObj.rotate(-1 * this.getRotation());
-        worldToObj.translate(-1 * center.getX(), -1 * center.getY());
+        AffineTransform worldToObj = new ManualAffineTransform();
+        worldToObj.rotate(-this.getRotation());
+        worldToObj.translate(-center.getX(), -center.getY());
         return worldToObj;
     }
 
     public AffineTransform toWorldTransform() {
-        AffineTransform objToWorld = new AffineTransform();
+        AffineTransform objToWorld = new ManualAffineTransform();
         objToWorld.translate(center.getX(), center.getY());
         objToWorld.rotate(this.getRotation());
         return objToWorld;

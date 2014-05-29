@@ -4,17 +4,18 @@ import cs355.model.shapes.Rectangle;
 import cs355.controller.CS355Controller;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 public class RectangleHandler extends CanvasMouseInteractionHandler {
     private Rectangle activeRectangle;
-    private Point start;
+    private Point2D start;
 
     public RectangleHandler(CS355Controller controller) {
         super(controller);
     }
 
     @Override
-    public void down(Point start) {
+    public void down(Point2D start) {
         activeRectangle = new Rectangle();
         activeRectangle.setColor(controller.getColor());
 
@@ -28,12 +29,12 @@ public class RectangleHandler extends CanvasMouseInteractionHandler {
     }
 
     @Override
-    public void drag(Point end) {
-        int dx = end.x - start.x;
-        int dy = end.y - start.y;
+    public void drag(Point2D end) {
+        double dx = end.getX() - start.getX();
+        double dy = end.getY() - start.getY();
 
-        int width = Math.abs(dx);
-        int height = Math.abs(dy);
+        double width = Math.abs(dx);
+        double height = Math.abs(dy);
 
         double x = (start.getX() + end.getX()) / 2;
         double y = (start.getY() + end.getY()) / 2;
@@ -46,7 +47,7 @@ public class RectangleHandler extends CanvasMouseInteractionHandler {
     }
 
     @Override
-    public void up(Point p) {
+    public void up(Point2D p) {
         activeRectangle = null;
         start = null;
 

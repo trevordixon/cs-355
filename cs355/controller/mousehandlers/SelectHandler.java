@@ -1,6 +1,7 @@
 package cs355.controller.mousehandlers;
 
 import cs355.GUIFunctions;
+import cs355.ManualAffineTransform;
 import cs355.model.shapes.*;
 import cs355.controller.CS355Controller;
 import cs355.model.shapes.Shape;
@@ -18,7 +19,7 @@ public class SelectHandler extends CanvasMouseInteractionHandler {
     }
 
     @Override
-    public void down(Point p) {
+    public void down(Point2D p) {
         last = p;
 
         clickedHandle = handleAtPoint(p);
@@ -37,16 +38,14 @@ public class SelectHandler extends CanvasMouseInteractionHandler {
     }
 
     @Override
-    public void drag(Point point) {
-        Point2D p = new Point2D.Double();
-        p.setLocation(point);
+    public void drag(Point2D p) {
         Shape selected = model.getSelection();
         if (selected == null) return;
         clickedHandle.handleDrag(p, last, selected);
         last = p;
     }
 
-    private Handle handleAtPoint(Point p) {
+    private Handle handleAtPoint(Point2D p) {
         Shape shape = model.getSelection();
         if (shape == null) return Handle.NONE;
 
@@ -87,7 +86,7 @@ public class SelectHandler extends CanvasMouseInteractionHandler {
         return Handle.NONE;
     }
 
-    private Handle handleAtPoint(Point p, Line line) {
+    private Handle handleAtPoint(Point2D p, Line line) {
         if (near(p, line.getStart())) {
             return Handle.START;
         } else if (near(p, line.getEnd())) {
@@ -134,7 +133,7 @@ public class SelectHandler extends CanvasMouseInteractionHandler {
             public void handleDrag(Point2D p, Point2D prevPoint, Shape shape) {
                 Point2D center = shape.getCenter();
 
-                AffineTransform worldToObj = new AffineTransform();
+                AffineTransform worldToObj = new ManualAffineTransform();
                 worldToObj.rotate(-1 * shape.getRotation());
                 worldToObj.translate(-1 * center.getX(), -1 * center.getY());
 
@@ -148,7 +147,7 @@ public class SelectHandler extends CanvasMouseInteractionHandler {
                 int xsign = (newCorner.getX() > 0) ? 1 : -1;
                 int ysign = (newCorner.getY() > 0) ? 1 : -1;
 
-                AffineTransform unRotate = new AffineTransform();
+                AffineTransform unRotate = new ManualAffineTransform();
                 unRotate.rotate(shape.getRotation());
 
                 Point2D oppositeCorner = new Point2D.Double(-xsign * shape.getWidth()/2, -ysign * shape.getHeight()/2);

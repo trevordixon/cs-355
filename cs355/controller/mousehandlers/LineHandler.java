@@ -3,7 +3,7 @@ package cs355.controller.mousehandlers;
 import cs355.model.shapes.Line;
 import cs355.controller.CS355Controller;
 
-import java.awt.*;
+import java.awt.geom.Point2D;
 
 public class LineHandler extends CanvasMouseInteractionHandler {
     private Line activeLine;
@@ -13,7 +13,7 @@ public class LineHandler extends CanvasMouseInteractionHandler {
     }
 
     @Override
-    public void down(Point start) {
+    public void down(Point2D start) {
         activeLine = new Line();
         activeLine.setColor(controller.getColor());
 
@@ -24,13 +24,13 @@ public class LineHandler extends CanvasMouseInteractionHandler {
     }
 
     @Override
-    public void drag(Point end) {
+    public void drag(Point2D end) {
         activeLine.setEnd(end);
         refresh();
     }
 
     @Override
-    public void up(Point p) {
+    public void up(Point2D p) {
         activeLine = null;
         refresh();
     }

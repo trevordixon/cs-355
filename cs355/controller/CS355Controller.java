@@ -3,11 +3,13 @@ package cs355.controller;
 import cs355.GUIFunctions;
 import cs355.model.CS355Model;
 import cs355.controller.mousehandlers.*;
+import cs355.view.ViewRefresher;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.Iterator;
 
@@ -18,10 +20,12 @@ public class CS355Controller implements cs355.CS355Controller {
     private CanvasMouseInteractionHandler mouseInteractionHandler = new CanvasMouseInteractionHandler(this);
 
     private CS355Model model;
+    private ViewRefresher view;
     private Color color = Color.blue;
 
-    public CS355Controller(CS355Model model) {
+    public CS355Controller(CS355Model model, ViewRefresher view) {
         this.model = model;
+        this.view = view;
 
         createMouseListener();
         createMouseMotionListener();
@@ -30,6 +34,7 @@ public class CS355Controller implements cs355.CS355Controller {
     public CS355Model getModel() {
         return model;
     }
+    public ViewRefresher getView() { return view; }
 
     public void setMouseInteractionHandler(CanvasMouseInteractionHandler mouseInteractionHandler) {
         if (this.mouseInteractionHandler != null) {
@@ -85,12 +90,12 @@ public class CS355Controller implements cs355.CS355Controller {
 
     @Override
     public void zoomInButtonHit() {
-        System.out.println("TODO: zoomInButtonHit");
+        view.zoomIn();
     }
 
     @Override
     public void zoomOutButtonHit() {
-        System.out.println("TODO: zoomOutButtonHit");
+        view.zoomOut();
     }
 
     @Override
@@ -155,17 +160,26 @@ public class CS355Controller implements cs355.CS355Controller {
         mouseListener = new MouseListener() {
             @Override
             public void mousePressed(MouseEvent e) {
-                mouseInteractionHandler.down(e.getPoint());
+                Point2D p = new Point2D.Double();
+                p.setLocation(e.getPoint());
+                view.viewToWorld.transform(p, p);
+                mouseInteractionHandler.down(p);
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                mouseInteractionHandler.up(e.getPoint());
+                Point2D p = new Point2D.Double();
+                p.setLocation(e.getPoint());
+                view.viewToWorld.transform(p, p);
+                mouseInteractionHandler.up(p);
             }
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                mouseInteractionHandler.click(e.getPoint());
+                Point2D p = new Point2D.Double();
+                p.setLocation(e.getPoint());
+                view.viewToWorld.transform(p, p);
+                mouseInteractionHandler.click(p);
             }
 
             @Override
@@ -180,12 +194,18 @@ public class CS355Controller implements cs355.CS355Controller {
         mouseMotionListener = new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                mouseInteractionHandler.drag(e.getPoint());
+                Point2D p = new Point2D.Double();
+                p.setLocation(e.getPoint());
+                view.viewToWorld.transform(p, p);
+                mouseInteractionHandler.drag(p);
             }
 
             @Override
             public void mouseMoved(MouseEvent e) {
-                mouseInteractionHandler.move(e.getPoint());
+                Point2D p = new Point2D.Double();
+                p.setLocation(e.getPoint());
+                view.viewToWorld.transform(p, p);
+                mouseInteractionHandler.move(p);
             }
         };
     }

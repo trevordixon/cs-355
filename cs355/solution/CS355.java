@@ -25,7 +25,7 @@ public class CS355
     	//   mouse listener, and mouse motion listener
         CS355Model model = new CS355Model();
         ViewRefresher view = new ViewRefresher(model);
-        CS355Controller controller = new CS355Controller(model);
+        CS355Controller controller = new CS355Controller(model, view);
 
         GUIFunctions.createCS355Frame(
             controller,

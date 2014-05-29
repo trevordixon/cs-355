@@ -3,7 +3,6 @@ package cs355.controller.mousehandlers;
 import cs355.model.shapes.Triangle;
 import cs355.controller.CS355Controller;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 
 public class TriangleHandler extends CanvasMouseInteractionHandler {
@@ -16,7 +15,7 @@ public class TriangleHandler extends CanvasMouseInteractionHandler {
     }
 
     @Override
-    public void click(Point point) {
+    public void click(Point2D point) {
         if (c1 == null) {
             c1 = point;
             return;

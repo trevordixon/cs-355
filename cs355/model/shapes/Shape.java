@@ -1,7 +1,6 @@
 package cs355.model.shapes;
 
 import cs355.ManualAffineTransform;
-import javafx.scene.transform.Affine;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

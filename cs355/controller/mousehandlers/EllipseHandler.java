@@ -3,7 +3,6 @@ package cs355.controller.mousehandlers;
 import cs355.model.shapes.Ellipse;
 import cs355.controller.CS355Controller;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 
 public class EllipseHandler extends CanvasMouseInteractionHandler {

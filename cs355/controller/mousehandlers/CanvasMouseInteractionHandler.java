@@ -4,7 +4,6 @@ import cs355.GUIFunctions;
 import cs355.controller.CS355Controller;
 import cs355.model.CS355Model;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 
 public class CanvasMouseInteractionHandler {

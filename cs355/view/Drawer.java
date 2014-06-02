@@ -7,7 +7,6 @@ import cs355.model.shapes.Shape;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.util.Arrays;
 
 public class Drawer {
     private ViewRefresher view;

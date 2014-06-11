@@ -1,6 +1,6 @@
 package cs355.view;
 
-import cs355.ManualAffineTransform;
+import cs355.*;
 import cs355.model.shapes.*;
 import cs355.model.shapes.Shape;
 
@@ -245,6 +245,37 @@ public class Drawer {
         }
 
         g.setTransform(new ManualAffineTransform());
+    }
+
+    public void drawWireFrame(WireFrame model) {
+        Matrix4 perspectiveMatrix = view.camera.getPerspectiveMatrix();
+
+        g.setTransform(view.worldToView);
+        g.setColor(Color.WHITE);
+
+        for (Line3D line : model) {
+            Vector4 start = new Vector4(line.start.x, line.start.y, line.start.z, 1);
+            Vector4 end = new Vector4(line.end.x, line.end.y, line.end.z, 1);
+
+            start.apply(perspectiveMatrix);
+            end.apply(perspectiveMatrix);
+
+            if (
+                start.y < -start.w && end.y < -end.w ||
+                start.y > start.w && end.y > end.w ||
+                start.x < -start.w && end.x < -end.w ||
+                start.x > start.w && end.x > end.w ||
+                start.z < -start.w && end.z < -end.w ||
+                start.z > start.w && end.z > end.w
+            ) {
+                continue;
+            }
+
+            start.divideW();
+            end.divideW();
+
+            g.drawLine((int) (start.x*-1024) + 1024, (int) (start.y*-1024) + 1024, (int) (end.x*-1024) + 1024, (int) (end.y*-1024) + 1024);
+        }
     }
 
     public void setG(Graphics2D g) {

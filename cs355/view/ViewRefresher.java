@@ -1,7 +1,10 @@
 package cs355.view;
 
 import cs355.GUIFunctions;
+import cs355.HouseModel;
 import cs355.ManualAffineTransform;
+import cs355.WireFrame;
+import cs355.controller.Camera;
 import cs355.model.CS355Model;
 import cs355.model.shapes.Shape;
 
@@ -16,16 +19,20 @@ public class ViewRefresher implements cs355.ViewRefresher {
 
     public AffineTransform worldToView = new ManualAffineTransform();
     public AffineTransform viewToWorld = new ManualAffineTransform();
-    double zoom = 1;
+    double zoom = .25;
 
     double scrollX = 0;
     double scrollY = 0;
 
-    double canvasWidth = 510;
-    double canvasHeight = 510;
+    double canvasWidth = 512;
+    double canvasHeight = 512;
+
+    public boolean draw3DHouse = true;
+    public Camera camera = new Camera(0, 5, -20);
 
     public ViewRefresher(CS355Model model) {
         this.model = model;
+        updateWorldToViewTransform();
     }
 
     public void zoomIn() {
@@ -90,6 +97,7 @@ public class ViewRefresher implements cs355.ViewRefresher {
         GUIFunctions.refresh();
     }
 
+    WireFrame house = new HouseModel();
     @Override
     public void refreshView(Graphics2D g2d) {
         drawer.setG(g2d);
@@ -101,6 +109,10 @@ public class ViewRefresher implements cs355.ViewRefresher {
         Shape selected = model.getSelection();
         if (selected != null) {
             drawer.drawSelectionOutlineAndHandles(selected);
+        }
+
+        if (draw3DHouse) {
+            drawer.drawWireFrame(house);
         }
     }
 }

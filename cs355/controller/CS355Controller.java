@@ -4,6 +4,7 @@ import cs355.GUIFunctions;
 import cs355.model.CS355Model;
 import cs355.controller.mousehandlers.*;
 import cs355.view.ViewRefresher;
+import org.lwjgl.input.Keyboard;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -110,11 +111,60 @@ public class CS355Controller implements cs355.CS355Controller {
 
     @Override
     public void toggle3DModelDisplay() {
-        System.out.println("TODO: toggle3DModelDisplay");
+        view.draw3DHouse = !view.draw3DHouse;
+        GUIFunctions.refresh();
     }
 
     @Override
-    public void keyPressed(Iterator<Integer> iterator) {}
+    public void keyPressed(Iterator<Integer> iterator) {
+        while (iterator.hasNext()) {
+            char key = (char) ((int) iterator.next());
+
+            if (key == 'W') {
+                view.camera.z += 1 * Math.cos(Math.toRadians(view.camera.angle));
+                view.camera.x += 1 * Math.sin(Math.toRadians(view.camera.angle));
+            }
+
+            if (key == 'S') {
+                view.camera.z -= 1 * Math.cos(Math.toRadians(view.camera.angle));
+                view.camera.x -= 1 * Math.sin(Math.toRadians(view.camera.angle));
+            }
+
+            if (key == 'A') {
+                view.camera.z += 1 * Math.cos(Math.toRadians(view.camera.angle+90));
+                view.camera.x += 1 * Math.sin(Math.toRadians(view.camera.angle+90));
+            }
+
+            if (key == 'D') {
+                view.camera.z -= 1 * Math.cos(Math.toRadians(view.camera.angle+90));
+                view.camera.x -= 1 * Math.sin(Math.toRadians(view.camera.angle+90));
+            }
+
+            if (key == 'Q') {
+                view.camera.angle += 1;
+                if (view.camera.angle > 360) {
+                    view.camera.angle -= 360;
+                }
+            }
+
+            if (key == 'E') {
+                view.camera.angle -= 1;
+                if (view.camera.angle < 0) {
+                    view.camera.angle += 360;
+                }
+            }
+
+            if (key == 'R') {
+                view.camera.y += 1;
+            }
+
+            if (key == 'F') {
+                view.camera.y -= 1;
+            }
+        }
+
+        GUIFunctions.refresh();
+    }
 
     @Override
     public void doEdgeDetection() {

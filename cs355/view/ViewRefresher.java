@@ -18,7 +18,9 @@ public class ViewRefresher implements cs355.ViewRefresher {
     public void refreshView(Graphics2D g2d) {
         drawer.setG(g2d);
 
-        model.forEach(drawer::draw);
+        for (Shape shape : model) {
+            drawer.draw(shape);
+        }
 
         Shape selected = model.getSelection();
         if (selected != null) {

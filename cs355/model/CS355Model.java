@@ -41,7 +41,12 @@ public class CS355Model implements Iterable<Shape> {
     }
 
     public Iterable<Shape> reverse() {
-        return shapes::descendingIterator;
+        return new Iterable<Shape>() {
+            @Override
+            public Iterator<Shape> iterator() {
+                return shapes.descendingIterator();
+            }
+        };
     }
 
     public Shape getSelection() {

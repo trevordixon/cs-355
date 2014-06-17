@@ -133,4 +133,32 @@ public class Image {
 
         pixels = newPixels;
     }
+    public void sharpen() {
+        int[][] newPixels = new int[height][width];
+
+        for (int r = 0; r < height; r++) {
+            for (int c = 0; c < width; c++) {
+                int pr = Math.max(r-1, 0);
+                int pc = Math.max(c-1, 0);
+                int nr = Math.min(r+1, height-1);
+                int nc = Math.min(c+1, width-1);
+
+                int sum = -pixels[pr][c ] +
+                        -pixels[r ][pc] +
+                        6*pixels[r ][c ] +
+                        -pixels[r ][nc] +
+                        -pixels[nr][c ];
+
+                newPixels[r][c] = sum/2;
+                
+                if (newPixels[r][c] > 255) {
+                    newPixels[r][c] = 255;
+                } else if (newPixels[r][c] < 0) {
+                    newPixels[r][c] = 0;
+                }
+            }
+        }
+
+        pixels = newPixels;
+    }
 }

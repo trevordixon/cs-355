@@ -174,7 +174,8 @@ public class CS355Controller implements cs355.CS355Controller {
 
     @Override
     public void doSharpen() {
-        System.out.println("TODO: doSharpen");
+        model.image.sharpen();
+        GUIFunctions.refresh();
     }
 
     @Override

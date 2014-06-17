@@ -78,6 +78,8 @@ public class Image {
     }
 
     public void uniformBlur() {
+        int[][] newPixels = new int[height][width];
+
         for (int r = 0; r < height; r++) {
             for (int c = 0; c < width; c++) {
                 int pr = Math.max(r-1, 0);
@@ -95,12 +97,16 @@ public class Image {
                           pixels[nr][c ] +
                           pixels[nr][nc];
 
-                pixels[r][c] = sum/9;
+                newPixels[r][c] = sum/9;
             }
         }
+
+        pixels = newPixels;
     }
 
     public void medianFilter() {
+        int[][] newPixels = new int[height][width];
+
         for (int r = 0; r < height; r++) {
             for (int c = 0; c < width; c++) {
                 int pr = Math.max(r-1, 0);
@@ -121,8 +127,10 @@ public class Image {
                 };
                 Arrays.sort(vals);
 
-                pixels[r][c] = vals[4];
+                newPixels[r][c] = vals[4];
             }
         }
+
+        pixels = newPixels;
     }
 }

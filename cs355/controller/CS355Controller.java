@@ -189,7 +189,8 @@ public class CS355Controller implements cs355.CS355Controller {
 
     @Override
     public void doChangeContrast(int contrastAmountNum) {
-        System.out.println("TODO: doChangeContrast");
+        model.image.adjustContrast(contrastAmountNum);
+        GUIFunctions.refresh();
     }
 
     @Override

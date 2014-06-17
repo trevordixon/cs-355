@@ -60,4 +60,19 @@ public class Image {
             }
         }
     }
+
+    public void adjustContrast(int amount) {
+        double scalar = Math.pow((double) (amount+100) / 100.00, 4);
+        for (int r = 0; r < height; r++) {
+            for (int c = 0; c < width; c++) {
+                double p = (double) pixels[r][c];
+                pixels[r][c] = (int) (scalar*(p-128)+128);
+                if (pixels[r][c] > 255) {
+                    pixels[r][c] = 255;
+                } else if (pixels[r][c] < 0) {
+                    pixels[r][c] = 0;
+                }
+            }
+        }
+    }
 }

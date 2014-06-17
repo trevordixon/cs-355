@@ -49,4 +49,15 @@ public class Image {
         bi.setData(wr);
         return bi;
     }
+
+    public void adjustBrightness(int amount) {
+        for (int r = 0; r < height; r++) {
+            for (int c = 0; c < width; c++) {
+                pixels[r][c] += amount;
+                if (pixels[r][c] > 255) {
+                    pixels[r][c] = 255;
+                }
+            }
+        }
+    }
 }

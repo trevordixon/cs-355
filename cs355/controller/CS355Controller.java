@@ -194,7 +194,8 @@ public class CS355Controller implements cs355.CS355Controller {
 
     @Override
     public void doChangeBrightness(int brightnessAmountNum) {
-        System.out.println("TODO: doChangeBrightness");
+        model.image.adjustBrightness(brightnessAmountNum);
+        GUIFunctions.refresh();
     }
 
     @Override

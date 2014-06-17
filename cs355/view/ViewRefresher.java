@@ -104,7 +104,7 @@ public class ViewRefresher implements cs355.ViewRefresher {
     public void refreshView(Graphics2D g2d) {
         drawer.setG(g2d);
 
-        if (model.image != null) {
+        if (model.image != null && drawImage) {
             g2d.setTransform(worldToView);
             g2d.drawImage(model.image.getBufferedImage(), null, 0, 0);
         }

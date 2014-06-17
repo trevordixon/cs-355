@@ -219,6 +219,7 @@ public class CS355Controller implements cs355.CS355Controller {
     @Override
     public void toggleBackgroundDisplay() {
         view.drawImage = !view.drawImage;
+        GUIFunctions.refresh();
     }
 
     private void createMouseListener() {

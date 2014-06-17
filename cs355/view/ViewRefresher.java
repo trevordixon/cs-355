@@ -11,6 +11,8 @@ import cs355.model.shapes.Shape;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.nio.Buffer;
 
 
 public class ViewRefresher implements cs355.ViewRefresher {
@@ -24,8 +26,8 @@ public class ViewRefresher implements cs355.ViewRefresher {
     double scrollX = 0;
     double scrollY = 0;
 
-    double canvasWidth = 512;
-    double canvasHeight = 512;
+    double canvasWidth = 2048;
+    double canvasHeight = 2048;
 
     public boolean drawImage = true;
 
@@ -70,11 +72,11 @@ public class ViewRefresher implements cs355.ViewRefresher {
     }
 
     public void updateScrollBars() {
-        GUIFunctions.setHScrollBarMax((int) (zoom*canvasWidth));
-        GUIFunctions.setHScrollBarKnob((int) canvasWidth);
+        GUIFunctions.setHScrollBarMax((int) canvasWidth);
+        GUIFunctions.setHScrollBarKnob((int) (canvasWidth/zoom));
 
-        GUIFunctions.setVScrollBarMax((int) (zoom*canvasHeight));
-        GUIFunctions.setVScrollBarKnob((int) canvasHeight);
+        GUIFunctions.setVScrollBarMax((int) canvasHeight);
+        GUIFunctions.setVScrollBarKnob((int) (canvasHeight/zoom));
     }
 
     public void updateWorldToViewTransform() {
@@ -106,7 +108,8 @@ public class ViewRefresher implements cs355.ViewRefresher {
 
         if (model.image != null && drawImage) {
             g2d.setTransform(worldToView);
-            g2d.drawImage(model.image.getBufferedImage(), null, 0, 0);
+            BufferedImage bi = model.image.getBufferedImage();
+            g2d.drawImage(bi, null, (2048-bi.getWidth())/2, (2048-bi.getHeight())/2);
         }
 
         for (Shape shape : model) {

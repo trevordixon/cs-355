@@ -11,6 +11,7 @@ import cs355.model.shapes.Shape;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 
 
 public class ViewRefresher implements cs355.ViewRefresher {
@@ -19,7 +20,7 @@ public class ViewRefresher implements cs355.ViewRefresher {
 
     public AffineTransform worldToView = new ManualAffineTransform();
     public AffineTransform viewToWorld = new ManualAffineTransform();
-    double zoom = .25;
+    double zoom = 1;
 
     double scrollX = 0;
     double scrollY = 0;
@@ -27,7 +28,9 @@ public class ViewRefresher implements cs355.ViewRefresher {
     double canvasWidth = 512;
     double canvasHeight = 512;
 
-    public boolean draw3DHouse = true;
+    public boolean drawImage = true;
+
+    public boolean draw3DHouse = false;
     public Camera camera = new Camera(0, 5, -20);
 
     public ViewRefresher(CS355Model model) {
@@ -101,6 +104,10 @@ public class ViewRefresher implements cs355.ViewRefresher {
     @Override
     public void refreshView(Graphics2D g2d) {
         drawer.setG(g2d);
+
+        if (model.image != null) {
+            g2d.drawImage(model.image.getBufferedImage(), null, 0, 0);
+        }
 
         for (Shape shape : model) {
             drawer.draw(shape);

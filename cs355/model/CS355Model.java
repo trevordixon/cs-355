@@ -12,6 +12,8 @@ public class CS355Model implements Iterable<Shape> {
     private Deque<Shape> shapes = new ArrayDeque<>();
     private Shape selection;
 
+    public Image image;
+
     public void add(Shape shape) {
         shapes.add(shape);
     }
@@ -52,7 +54,7 @@ public class CS355Model implements Iterable<Shape> {
         this.selection = selection;
     }
 
-    public void clearSelection() {
-        selection = null;
+    public void setImage(int width, int height, int[] pixels) {
+        image = new Image(width, height, pixels);
     }
 }

@@ -12,6 +12,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.Raster;
 import java.util.Iterator;
 
 public class CS355Controller implements cs355.CS355Controller {
@@ -197,13 +198,21 @@ public class CS355Controller implements cs355.CS355Controller {
     }
 
     @Override
-    public void doLoadImage(BufferedImage openImage) {
-        System.out.println("TODO: doLoadImage");
+    public void doLoadImage(BufferedImage i) {
+        Raster r = i.getRaster();
+
+        int width = i.getWidth();
+        int height = i.getHeight();
+        int[] pixels = r.getPixels(0, 0, width, height, (int[]) null);
+
+        model.setImage(width, height, pixels);
+
+        GUIFunctions.refresh();
     }
 
     @Override
     public void toggleBackgroundDisplay() {
-        System.out.println("TODO: toggleBackgroundDisplay");
+        view.drawImage = !view.drawImage;
     }
 
     private void createMouseListener() {

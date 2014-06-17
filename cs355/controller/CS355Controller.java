@@ -184,7 +184,8 @@ public class CS355Controller implements cs355.CS355Controller {
 
     @Override
     public void doUniformBlur() {
-        System.out.println("TODO: doUniformBlur");
+        model.image.uniformBlur();
+        GUIFunctions.refresh();
     }
 
     @Override

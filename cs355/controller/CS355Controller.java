@@ -179,7 +179,8 @@ public class CS355Controller implements cs355.CS355Controller {
 
     @Override
     public void doMedianBlur() {
-        System.out.println("TODO: doMedianBlur");
+        model.image.medianFilter();
+        GUIFunctions.refresh();
     }
 
     @Override

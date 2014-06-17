@@ -2,6 +2,7 @@ package cs355.model;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
+import java.util.Arrays;
 
 public class Image {
     int width;
@@ -95,6 +96,32 @@ public class Image {
                           pixels[nr][nc];
 
                 pixels[r][c] = sum/9;
+            }
+        }
+    }
+
+    public void medianFilter() {
+        for (int r = 0; r < height; r++) {
+            for (int c = 0; c < width; c++) {
+                int pr = Math.max(r-1, 0);
+                int pc = Math.max(c-1, 0);
+                int nr = Math.min(r+1, height-1);
+                int nc = Math.min(c+1, width-1);
+
+                int[] vals = new int[]{
+                    pixels[pr][pc],
+                    pixels[pr][c ],
+                    pixels[pr][nc],
+                    pixels[r ][pc],
+                    pixels[r ][c ],
+                    pixels[r ][nc],
+                    pixels[nr][pc],
+                    pixels[nr][c ],
+                    pixels[nr][nc]
+                };
+                Arrays.sort(vals);
+
+                pixels[r][c] = vals[4];
             }
         }
     }

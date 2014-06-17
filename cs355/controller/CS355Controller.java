@@ -169,7 +169,8 @@ public class CS355Controller implements cs355.CS355Controller {
 
     @Override
     public void doEdgeDetection() {
-        System.out.println("TODO: doEdgeDetection");
+        model.image.detectEdges();
+        GUIFunctions.refresh();
     }
 
     @Override

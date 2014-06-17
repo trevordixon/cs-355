@@ -133,6 +133,7 @@ public class Image {
 
         pixels = newPixels;
     }
+
     public void sharpen() {
         int[][] newPixels = new int[height][width];
 
@@ -150,7 +151,44 @@ public class Image {
                         -pixels[nr][c ];
 
                 newPixels[r][c] = sum/2;
-                
+
+                if (newPixels[r][c] > 255) {
+                    newPixels[r][c] = 255;
+                } else if (newPixels[r][c] < 0) {
+                    newPixels[r][c] = 0;
+                }
+            }
+        }
+
+        pixels = newPixels;
+    }
+
+    public void detectEdges() {
+        int[][] newPixels = new int[height][width];
+
+        for (int r = 0; r < height; r++) {
+            for (int c = 0; c < width; c++) {
+                int pr = Math.max(r-1, 0);
+                int pc = Math.max(c-1, 0);
+                int nr = Math.min(r+1, height-1);
+                int nc = Math.min(c+1, width-1);
+
+                int x = -pixels[pr][pc] +
+                        pixels[pr][nc] +
+                        -2*pixels[r][pc] +
+                        2*pixels[r][nc] +
+                        -pixels[nr][pc] +
+                        pixels[nr][nc];
+
+                int y = pixels[pr][pc] +
+                        2*pixels[pr][c] +
+                        pixels[pr][nc] +
+                        -pixels[nr][pc] +
+                        -2*pixels[nr][c] +
+                        -pixels[nr][nc];
+
+                newPixels[r][c] = (int) Math.sqrt(x*x + y*y);
+
                 if (newPixels[r][c] > 255) {
                     newPixels[r][c] = 255;
                 } else if (newPixels[r][c] < 0) {
